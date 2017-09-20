@@ -59,7 +59,7 @@ AFRAME.registerComponent('animation-control', {
     <a-asset-item id="dawningFont" src="font/dawningOfANewDayRegular.typeface.json"></a-asset-item>
     <a-asset-item id="exoFont" src="font/exo2Black.typeface.json"></a-asset-item>
     <a-asset-item id="exoItalicFont" src="font/Fexo2BlackItalic.typeface.json"></a-asset-item>
-
+    <audio id="bark" src="sounds/barking.mp3" preload="auto"></audio>
     </a-assets>
 
    <a-entity    id ="bot"
@@ -98,6 +98,8 @@ AFRAME.registerComponent('animation-control', {
           material="color:black; metalness:1; roughness: 0; sphericalEnvMap: #pink;"
         ></a-entity>
 
+          <a-sound id="barking" src="src: url(sounds/barking.mp3)" position="0 2 5"></a-sound>
+
        <a-entity id= "run" class="clickable" animation-control="clip: run; crossFadeDuration: .3" position="1 3 4" rotation="0 0 0" scale="0.5 .6 .3" text-geometry="value: RUN; font: #exoFont; bevelEnabled: false; bevelSize: 0.1; bevelThickness: 0.1; curveSegments: 1; size: 1; height: 0.5;" material="color:pink; metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome;"></a-entity>
 
         <a-entity id= "walk" class="clickable" animation-control="clip: walk; crossFadeDuration: .3" position="5.5 3 4" rotation="0 0 0" scale="0.5 .6 .3" text-geometry="value: WALK; font: #exoFont; bevelEnabled: false; bevelSize: 0.1; bevelThickness: 0.1; curveSegments: 1; size: 1; height: 0.5;" material="color:pink; metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome;"></a-entity>
@@ -107,7 +109,7 @@ AFRAME.registerComponent('animation-control', {
         <a-entity id="idle" class="clickable" animation-control="clip: idle; crossFadeDuration: .3" position="1 4 4" rotation="0 0 0" scale="0.5 .6 .3" text-geometry="value: IDLE; font: #exoFont; bevelEnabled: false; bevelSize: 0.1; bevelThickness: 0.1; curveSegments: 1; size: 1; height: 0.5;" material="color:pink; metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome;"></a-entity>
 
         <a-entity id="sit" class="clickable" animation-control="clip: sit; crossFadeDuration: .3" position="1 5 4" rotation="0 0 0" scale="0.5 .6 .3" text-geometry="value: SIT; font: #exoFont; bevelEnabled: false; bevelSize:0.1; bevelThickness: 0.1; curveSegments: 1; size: 1; height: 0.5;" material="color:pink; metalness:0.9; roughness:0.05; sphericalEnvMap: #chrome;"></a-entity>
-       </a-entity>
+    </a-entity>
 
         <a-entity
         geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
@@ -123,21 +125,108 @@ AFRAME.registerComponent('animation-control', {
       <script>
       var wolf = document.querySelector('#bot');
       t=0;
+      speed = 2;
+      var back = false;
+      var i = 90;
+      var center = true;
 
       function render() {
-        if(t<5){
-          requestAnimationFrame(render);
-          wolf.setAttribute('position', (t*2)+' 1.5 -2.5');
+        if(t > 5){
+          if(center != true){
+            requestAnimationFrame(render);
+          }else{
+            requestAnimationFrame(goBack);
+          }
+          leftRotate();
+          // wolf.setAttribute('rotation', '0 270 0');
+          t = t - 0.01;
+          back = true;
+        }else if(t < -5){
+          if(center != true){
+            requestAnimationFrame(render);
+          }else{
+            requestAnimationFrame(goback);
+          }
+          rightRotate();
+            // wolf.setAttribute('rotation', '0 '+i+' 0');
           t += 0.01;
-        }else if(t=5){
-          requestAnimationFrame(render);
-          wolf.setAttribute('rotation', )
+          back = false;
+        }else if(t<5 && back != true){
+          if(center != true){
+            requestAnimationFrame(render);
+          }else{
+            requestAnimationFrame(goBack);
+          }
+          wolf.setAttribute('position', (t*speed)+' 1.5 -2.5');
+          t += 0.01;
+        }else if(t<5 && t > -5 && back == true){
+          if(center != true){
+            requestAnimationFrame(render);
+          }else{
+            requestAnimationFrame(goBack);
+          }
+          wolf.setAttribute('position', (t*speed)+' 1.5 -2.5');
+          t -= 0.01;
         }
       }
 
-      document.querySelector('#walk').addEventListener('click', function(){
-          // render();
+      function goBack(){
+        if(t <  -1 || t > 1){
+          if(t>0){
+            requestAnimationFrame(goBack);
+            wolf.setAttribute('position', (t*speed)+' 1.5 -2.5');
+            t -= 0.01;
+          }else if(t<0){
+            requestAnimationFrame(goBack);
+            wolf.setAttribute('position', (t*speed)+' 1.5 -2.5');
+            t += 0.01;
+          }
+        }else{
+          // wolf.setAttribute('position', '0 1.5 -2.5');
+          console.log(t);
+          wolf.setAttribute('position', '0 1.5 -2.5');
+          console.log('go back i say');
+          center = false;
+        }
+      }
+
+      function leftRotate(){
+        if(i<270){
+          requestAnimationFrame(leftRotate);
+          wolf.setAttribute('rotation', '0 '+i+' 0');
+          i += 2;
+        }
+      }
+
+      function rightRotate(){
+        if(i > 90){
+          requestAnimationFrame(rightRotate);
+          wolf.setAttribute('rotation', '0 '+i+' 0');
+          i -= 2;
+        }
+      }
+
+      // document.querySelector('#sit').addEventListener('click', function(){
+      //   center = true;
+      //   goBack();
+      // }
+
+      document.querySelector('#idle').addEventListener('click', function(){
+        center = true;
+        goBack();
       });
+
+      document.querySelector('#walk').addEventListener('click', function(){
+          center = false;
+          speed = 2;
+          render();
+      });
+
+      document.querySelector('#run').addEventListener('click', function(){
+          speed = 4;
+          center = false;
+          render();
+      })
       </script>
   <body>
 </html>
