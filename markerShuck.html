@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <script src="js/aframe-v0.6.0.js"></script>
+    <script src="js/aframe-ar.js"></script>
+    <script src="js/aframe-extras.js"></script>
+    <script src="js/aframe-text-geometry-component.min.js"></script>
+    <script>THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'</script>
+  </head>
+  <body style=’margin : 0px; overflow: hidden;’>
+    <a-scene stats embedded arjs=’sourceType: webcam;’>
+      <a-marker preset='hiro'>
+         <a-entity    id ="shuck"
+                     cursor-listener
+                     scale="1 1 1"
+                     position="0 0 0.5"
+                     rotation="270 0 0"
+                     animation-mixer="clip: run"
+
+                     json-model="src: url(models/shuck/shuck-5Anim.json);"></a-entity>
+      </a-marker>
+
+      <a-marker preset='kanji'>
+        <a-entity id ="shuckJump"
+                      scale="1 1 1"
+                      position="0 0 0.5"
+                      rotation="270 0 0"
+                      animation-mixer="clip: jump"
+
+                      json-model="src: url(models/shuck/shuck-5Anim.json);"></a-entity>
+      </a-marker>
+      <a-marker type='pattern' url='patterns/block.patt'>
+        <a-entity    id ="shuck"
+                    cursor-listener
+                    scale="1 1 1"
+                    position="0 0 0.5"
+                    rotation="270 0 0"
+                    animation-mixer="clip: sit"
+
+                    json-model="src: url(models/shuck/shuck-5Anim.json);"></a-entity>
+      </a-marker>
+      <a-entity camera>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
