@@ -1525,7 +1525,7 @@ var Qb=[Ik,Zh,_h,Qj,Qi,Pi,Ri,Ag,sg,qg,rg,yg,kh,jh,Oi,Mj];var Rb=[Jk,ki,ji,gi];va
 			files = files.map(function(file) {
 				// FIXME super kludge - remove it
 				// console.assert(file !== '')
-				if( file === 'patt.hiro' || file === 'patt.kanji' || file === 'patt2.hiro' || file === 'patt2.kanji' ){
+				if( file === 'patt.hiro' || file === 'patt.kanji' || file === 'patt2.hiro' || file === 'patt2.kanji' || file === patt.keys ){
 					// debugger
 					return ['http://127.0.0.1:8080/data/data/' + file, file]
 				}
@@ -5204,7 +5204,7 @@ Object.assign( ARjs.Context.prototype, THREE.EventDispatcher.prototype );
 
 // ARjs.Context.baseURL = '../'
 // default to github page
-ARjs.Context.baseURL = 'https://jeromeetienne.github.io/AR.js/three.js/'
+ARjs.Context.baseURL = '/theBrink/test/js/data/data/'
 ARjs.Context.REVISION = '1.5.1'
 
 
@@ -5605,12 +5605,12 @@ ARjs.Profile.prototype.reset = function () {
 	}
 
 	this.contextParameters = {
-		cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
+		cameraParametersUrl: 'https://ekoebase.duckdns.org/theBrink/test/js/data/data/camera_para.dat',
 		detectionMode: 'mono',
 	}
 	this.defaultMarkerParameters = {
 		type : 'pattern',
-		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/patt.hiro',
 		changeMatrixMode: 'modelViewMatrix',
 	}
 	return this
@@ -7902,7 +7902,7 @@ ARjs.MarkersAreaUtils.createDefaultMultiMarkerFile = function(trackingBackend){
 	}
 	if( trackingBackend === 'artoolkit' ){
 		file.subMarkersControls[0].parameters.type = 'pattern'
-		file.subMarkersControls[0].parameters.patternUrl = absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-hiro.patt'
+		file.subMarkersControls[0].parameters.patternUrl = absoluteBaseURL + '../data/patterns/pattern-files/pattern-hiro.patt'
 	}else if( trackingBackend === 'aruco' ){
 		file.subMarkersControls[0].parameters.type = 'barcode'
 		file.subMarkersControls[0].parameters.barcodeValue = 1001
@@ -7934,27 +7934,27 @@ ARjs.MarkersAreaUtils.createDefaultMarkersControlsParameters = function(tracking
 		var markersControlsParameters = [
 			{
 				type : 'pattern',
-				patternUrl : absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-hiro.patt',
+				patternUrl : absoluteBaseURL + '../data/patterns/pattern-files/pattern-hiro.patt',
 			},
 			{
 				type : 'pattern',
-				patternUrl : absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-kanji.patt',
+				patternUrl : absoluteBaseURL + '../data/patterns/pattern-files/pattern-kanji.patt',
 			},
 			{
 				type : 'pattern',
-				patternUrl : absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterA.patt',
+				patternUrl : absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterA.patt',
 			},
 			{
 				type : 'pattern',
-				patternUrl : absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterB.patt',
+				patternUrl : absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterB.patt',
 			},
 			{
 				type : 'pattern',
-				patternUrl : absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterC.patt',
+				patternUrl : absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterC.patt',
 			},
 			{
 				type : 'pattern',
-				patternUrl : absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterF.patt',
+				patternUrl : absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterF.patt',
 			},
 		]
 	}else if( trackingBackend === 'aruco' ){
@@ -8081,11 +8081,11 @@ ARjs.MarkersAreaUtils.buildMarkersAreaFileFromResolution = function(trackingBack
 		var absoluteBaseURL = link.href
 
 		var layout2PatternUrl = {
-			'center' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-hiro.patt'),
-			'topleft' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterA.patt'),
-			'topright' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterB.patt'),
-			'bottomleft' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterC.patt'),
-			'bottomright' : convertRelativeUrlToAbsolute(absoluteBaseURL + 'examples/marker-training/examples/pattern-files/pattern-letterF.patt'),
+			'center' : convertRelativeUrlToAbsolute(absoluteBaseURL + '../data/patterns/pattern-files/pattern-hiro.patt'),
+			'topleft' : convertRelativeUrlToAbsolute(absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterA.patt'),
+			'topright' : convertRelativeUrlToAbsolute(absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterB.patt'),
+			'bottomleft' : convertRelativeUrlToAbsolute(absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterC.patt'),
+			'bottomright' : convertRelativeUrlToAbsolute(absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterF.patt'),
 		}
 		console.assert(layout2PatternUrl[layout] !== undefined )
 		parameters.type = 'pattern'
@@ -8187,11 +8187,43 @@ AFRAME.registerComponent('arjs-anchor', {
 			// honor this.data.preset
 			if( _this.data.preset === 'hiro' ){
 				arProfile.defaultMarkerParameters.type = 'pattern'
-				arProfile.defaultMarkerParameters.patternUrl = THREEx.ArToolkitContext.baseURL+'examples/marker-training/examples/pattern-files/pattern-hiro.patt'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-hiro.patt'
 				arProfile.defaultMarkerParameters.markersAreaEnabled = false
 			}else if( _this.data.preset === 'kanji' ){
 				arProfile.defaultMarkerParameters.type = 'pattern'
-				arProfile.defaultMarkerParameters.patternUrl = THREEx.ArToolkitContext.baseURL+'examples/marker-training/examples/pattern-files/pattern-kanji.patt'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-kanji.patt'
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+			}else if(_this.data.preset === 'letterA'){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-letterA.patt'
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+			}else if(_this.data.preset === 'letterB'){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-letterB.patt'
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+			}else if(_this.data.preset === 'letterC'){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-letterC.patt'
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+			}else if(_this.data.preset === 'letterD'){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-letterD.patt'
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+			}else if(_this.data.preset === 'letterF'){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-letterF.patt'
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+			}else if(_this.data.preset === 'letterG'){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-letterG.patt'
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+			}else if(_this.data.preset === 'keys'){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-keys.patt'
+				arProfile.defaultMarkerParameters.markersAreaEnabled = false
+			}else if(_this.data.preset === 'arjs'){
+				arProfile.defaultMarkerParameters.type = 'pattern'
+				arProfile.defaultMarkerParameters.patternUrl = 'js/data/patterns/pattern-files/pattern-arjs.patt'
 				arProfile.defaultMarkerParameters.markersAreaEnabled = false
 			}else if( _this.data.preset === 'area' ){
 				arProfile.defaultMarkerParameters.type = 'barcode'
@@ -8679,5 +8711,7 @@ AFRAME.registerSystem('arjs', {
 
 		// copy projection matrix to camera
 		this._arSession.onResize()
+		document.querySelector('#arjsDebugUIContainer').style.display = 'none';
+
 	},
 })

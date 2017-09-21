@@ -3,8 +3,7 @@ var THREEx = THREEx || {}
 THREEx.Portal360 = function(videoImageURL, doorWidth, doorHeight){
 
 	var doorCenter = new THREE.Group
-	// doorCenter.position.y = doorHeight/2
-	// doorCenter.position.x = doorWidth/2
+	doorCenter.position.y = doorHeight/2
 	this.object3d = doorCenter
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -38,9 +37,9 @@ THREEx.Portal360 = function(videoImageURL, doorWidth, doorHeight){
 	//////////////////////////////////////////////////////////////////////////////
 
 	// create insideMesh which is visible IIF inside the portal
-	// var insideMesh = this._buildInsideMesh(texture360, doorWidth, doorHeight)
-	// doorCenter.add(insideMesh)
-	// this.insideMesh = insideMesh
+	var insideMesh = this._buildInsideMesh(texture360, doorWidth, doorHeight)
+	doorCenter.add(insideMesh)
+	this.insideMesh = insideMesh
 
 	// create outsideMesh which is visible IIF outside the portal
 	var outsideMesh = this._buildOutsideMesh(texture360, doorWidth, doorHeight)
@@ -135,8 +134,8 @@ THREEx.Portal360.prototype._buildInsideMesh	= function(texture360, doorWidth, do
 	//////////////////////////////////////////////////////////////////////////////
 	// add 360 texture
 	// TODO put that in a this.data
-	// var radius360Sphere = 10
-	var radius360Sphere = 1
+	var radius360Sphere = 10
+	// var radius360Sphere = 1
 
 	var geometry = new THREE.SphereGeometry( radius360Sphere, 16, 16).rotateZ(Math.PI)
 	var material = new THREE.MeshBasicMaterial( {
@@ -171,8 +170,8 @@ THREEx.Portal360.prototype._buildOutsideMesh = function(texture360, doorWidth, d
 	//		add 360 sphere
 	//////////////////////////////////////////////////////////////////////////////
 	// add 360 texture
-	// var radius360Sphere = 10
-	var radius360Sphere = 1
+	var radius360Sphere = 10
+	// var radius360Sphere = 1
 
 	// build half sphere geometry
 	var geometry = new THREE.SphereGeometry( radius360Sphere, 16, 16, Math.PI, Math.PI, 0, Math.PI).rotateZ(Math.PI)
@@ -246,11 +245,11 @@ THREEx.Portal360.prototype.update = function () {
 	var isOutsidePortal = localPosition.z >= 0 ? true : false
 
 	// handle mesh visibility based on isOutsidePortal
-	// if( isOutsidePortal ){
+	if( isOutsidePortal ){
 		this.outsideMesh.visible = true
-		// this.insideMesh.visible = false
-	// }else{
-	// 	this.outsideMesh.visible = false
-	// 	this.insideMesh.visible = true
-	// }
+		this.insideMesh.visible = false
+	}else{
+		this.outsideMesh.visible = false
+		this.insideMesh.visible = true
+	}
 }

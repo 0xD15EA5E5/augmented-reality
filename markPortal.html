@@ -1,0 +1,19 @@
+<script src="js/aframe-v0.6.0.js"></script>
+<script src="js/aframe-ar.js"></script>
+
+<script>ARjs.Context.baseURL = 'js/three.js/'</script>
+<!-- include aframe-portal-door -->
+<!-- <script src='js/aframe-portal.js'></script> -->
+<!-- <script src='js/threex-portal.js'></script> -->
+</head>
+  <body>
+    <a-scene stats embedded  arjs='trackingMethod: best;'>
+      <a-assets>
+            <img id="bridge" src="images/360_topaz.png">
+      </a-assets>
+      <a-marker preset='hiro'>
+        <a-circle material="strokeColor:#00ffeb;transparent:true;shader:portal;pano:images/shuck.png" position="0 0 0"></a-circle>
+      </a-marker>
+    </a-scene>
+  </body>
+</html>

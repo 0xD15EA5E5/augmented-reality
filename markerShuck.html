@@ -4,10 +4,15 @@
     <script src="js/aframe-ar.js"></script>
     <script src="js/aframe-extras.js"></script>
     <script src="js/aframe-text-geometry-component.min.js"></script>
-    <script>THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'</script>
+    <!-- <script>THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'</script> -->
+    <script>THREEx.ArToolkitContext.baseURL = 'https://http://ekoebase.duckdns.org/theBrink/test/js/data/data/'</script>
   </head>
   <body style=’margin : 0px; overflow: hidden;’>
     <a-scene stats embedded arjs=’sourceType: webcam;’>
+      <a-assets>
+        <a-asset-item id="crate-obj" src="models/sword.obj"></a-asset-item>
+        <a-asset-item id="crate-mtl" src="models/sword.mtl"></a-asset-item>
+      </a-assets>
       <a-marker preset='hiro'>
          <a-entity    id ="shuck"
                      cursor-listener
@@ -28,15 +33,41 @@
 
                       json-model="src: url(models/shuck/shuck-5Anim.json);"></a-entity>
       </a-marker>
-      <a-marker type='pattern' url='patterns/block.patt'>
+      <a-marker preset='letterA'>
         <a-entity    id ="shuck"
-                    cursor-listener
-                    scale="1 1 1"
-                    position="0 0 0.5"
-                    rotation="270 0 0"
-                    animation-mixer="clip: sit"
+        cursor-listener
+        scale="1 1 1"
+        position="0 0 0.5"
+        rotation="270 0 0"
+        animation-mixer="clip: sit"
 
-                    json-model="src: url(models/shuck/shuck-5Anim.json);"></a-entity>
+        json-model="src: url(models/shuck/shuck-5Anim.json);"></a-entity>
+      </a-marker>
+      <a-marker preset='letterB'>
+        <a-entity    id ="shuck"
+        cursor-listener
+        scale="1 1 1"
+        position="0 0 0.5"
+        rotation="270 0 0"
+        animation-mixer="clip: walk"
+
+        json-model="src: url(models/shuck/shuck-5Anim.json);"></a-entity>
+      </a-marker>
+      <a-marker preset='keys'>
+        <a-entity    id ="shuck"
+        cursor-listener
+        scale="1 1 1"
+        position="0 0 0.5"
+        rotation="270 0 0"
+        animation-mixer="clip: idle"
+
+        json-model="src: url(models/shuck/shuck-5Anim.json);"></a-entity>
+      </a-marker>
+      <a-marker preset='arjs'>
+        <a-obj-model src="#crate-obj" mtl="#crate-mtl" position="0 0 0" material="" obj-model=""></a-obj-model>
+      </a-marker>
+      <a-marker preset='letterC'>
+        <a-box material="pano:https://aframe.io/sample-assets/assets/images/space/earth_atmos_4096.jpg;shader:portal" position="0 0 0"></a-box>
       </a-marker>
       <a-entity camera>
       </a-entity>
