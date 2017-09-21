@@ -7,6 +7,10 @@ https://jeromeetienne.github.io/AR.js/
 
 https://aframe.io/
 
+youtube rigging tutorial i followed to rig the shuck model
+
+https://www.youtube.com/watch?v=cGvalWG8HBU&t=517s
+
 models are imported into blender and exported after animating useing the three.js exporter which can be found here 
 
 https://github.com/mrdoob/three.js/tree/master/utils/exporters/blender
