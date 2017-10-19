@@ -993,7 +993,7 @@ var Qb=[Ik,Zh,_h,Qj,Qi,Pi,Ri,Ag,sg,qg,rg,yg,kh,jh,Oi,Mj];var Rb=[Jk,ki,ji,gi];va
 			});
 		}, 1);
 	};
-
+/*
 	ARController.prototype._copyImageToHeap = function(image) {
 		if (!image) {
 			image = this.image;
@@ -1008,6 +1008,38 @@ var Qb=[Ik,Zh,_h,Qj,Qi,Pi,Ri,Ag,sg,qg,rg,yg,kh,jh,Oi,Mj];var Rb=[Jk,ki,ji,gi];va
 			this.ctx.restore();
 		} else {
 			this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height); // draw video
+		}
+
+		var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+		var data = imageData.data;
+
+		if (this.dataHeap) {
+			this.dataHeap.set( data );
+			return true;
+		}
+		return false;
+	};
+	*/
+
+	ARController.prototype._copyImageToHeap = function(image) {
+		if (!image) {
+			image = this.image;
+		}
+
+		if (image.videoWidth > image.videoHeight)
+		{
+			//landscape
+			this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height); // draw video
+		}
+		else {
+
+			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			//portrait
+			var scale = this.canvas.height / this.canvas.width;
+			var scaledHeight = this.canvas.width*scale;
+			var scaledWidth = this.canvas.height*scale;
+			var marginLeft = ( this.canvas.width - scaledWidth)/2;
+			this.ctx.drawImage(image, marginLeft, 0, scaledWidth, scaledHeight); // draw video
 		}
 
 		var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -5605,7 +5637,7 @@ ARjs.Profile.prototype.reset = function () {
 	}
 
 	this.contextParameters = {
-		cameraParametersUrl: 'https://ekoebase.duckdns.org/theBrink/test/js/data/data/camera_para.dat',
+		cameraParametersUrl: 'js/data/data/camera_para.dat',
 		detectionMode: 'mono',
 	}
 	this.defaultMarkerParameters = {
@@ -6084,11 +6116,33 @@ ARjs.Source.prototype.onResizeElement = function(mirrorDomElements){
 	})
 }
 
+/*
 ARjs.Source.prototype.copyElementSizeTo = function(otherElement){
 	otherElement.style.width = this.domElement.style.width
 	otherElement.style.height = this.domElement.style.height
 	otherElement.style.marginLeft = this.domElement.style.marginLeft
 	otherElement.style.marginTop = this.domElement.style.marginTop
+}
+*/
+
+ARjs.Source.prototype.copyElementSizeTo = function(otherElement){
+
+	if (window.innerWidth > window.innerHeight)
+	{
+		//landscape
+		otherElement.style.width = this.domElement.style.width
+		otherElement.style.height = this.domElement.style.height
+		otherElement.style.marginLeft = this.domElement.style.marginLeft
+		otherElement.style.marginTop = this.domElement.style.marginTop
+	}
+	else {
+		//portrait
+		otherElement.style.height = this.domElement.style.height
+		otherElement.style.width = (parseInt(otherElement.style.height) * 4/3)+"px";
+		otherElement.style.marginLeft = ((window.innerWidth- parseInt(otherElement.style.width))/2)+"px";
+		otherElement.style.marginTop = 0;
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -7955,6 +8009,10 @@ ARjs.MarkersAreaUtils.createDefaultMarkersControlsParameters = function(tracking
 			{
 				type : 'pattern',
 				patternUrl : absoluteBaseURL + '../data/patterns/pattern-files/pattern-letterF.patt',
+			},
+			{
+				type : 'pattern',
+				patternUrl : absoluteBaseURL + '../data/patterns/pattern-files/pattern-keys.patt',
 			},
 		]
 	}else if( trackingBackend === 'aruco' ){
