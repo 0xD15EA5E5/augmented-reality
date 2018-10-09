@@ -21,3 +21,5 @@ http://unboring.net/workflows/animation.html
 
 (wierd little thing that caught me out if your models are being distored when displayed in aframe make sure you have exported them in the pose they were originally rigged in otherwise it seems to start it in a posed position then pose from those points i think)
 
+<u>io_three</u>
+exporters/io_three is the three.js exporter for blender this is not supported now and a copy is kept here as it can be useful for some experiments of mine
